@@ -17,10 +17,11 @@ class CreateInventariosTable extends Migration
             $table->bigIncrements('id');
             $table->string('clave');
             $table->string('clave_interna')->nullable();
-            $table->string('descripcion');
-            $table->string('cantidad');
-            $table->double('costo_unitario', 8, 2);
+            $table->longtext('descripcion');
+            $table->string('cantidad')->nullable();
+            $table->double('costo_unitario', 8, 2)->nullable();
             $table->timestamps();
+            $table->engine = 'InnoDB';
         });
     }
 
