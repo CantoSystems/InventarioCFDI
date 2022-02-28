@@ -18,68 +18,86 @@ class InventarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-       return view('home');
+    public function index(){
+        return view('home');
     }
 
     public function importarxml(){
-     return view('importarxml');
+        return view('importarxml');
     }
 
     public function tratamientoxml(Request $request){
         $files = $request->file('archivossubidos');
-        if($request->hasFile('archivossubidos'))
-        {
+        if($request->hasFile('archivossubidos')){
             foreach ($files as $file) {
-                
                 $this->obtenerdatos($file);
             }
-            return redirect()->action('InventarioController@exportarexcel');
+            //return redirect()->action('InventarioController@exportarexcel');
         }
-
-
     }
 
     public function obtenerdatos($file){
         $xmlContents = file_get_contents($file);
         $xmlContents = \CfdiUtils\Cleaner\Cleaner::staticClean($xmlContents);
         $comprobante = \CfdiUtils\Cfdi::newFromString($xmlContents)->getQuickReader();
-        // usando asignación de variable
+
         $conceptos = $comprobante->conceptos;
-        foreach($conceptos() as $concepto) 
-        {
-            $valor_unitario= $concepto['valorunitario'];
-            $cantidad= $concepto['cantidad'];
-            $descripcion= $concepto['descripcion'];
-            $clave= $concepto['claveprodserv'];
-            $this->registro($valor_unitario,$cantidad,$descripcion,$clave);
+        if($comprobante['TipoDeComprobante']=="I"){
+            foreach($conceptos() as $concepto){
+                $valor_unitario = $concepto['valorunitario'];
+                $descripcion = $concepto['descripcion'];
+                
+                if(isset($concepto['NoIdentificacion'])){
+                    $clave = $concepto['NoIdentificacion'];
+                    $this->registro($valor_unitario,$descripcion,$clave,'1');
+                }else{
+                    $clave = $concepto['claveprodserv'];
+                    $this->registro($valor_unitario,$descripcion,$clave,'2');
+                }
+            }
         }
     }
 
-    public function registro($valor_unitario,$cantidad,$descripcion,$clave){
-    $producto= Inventario::where('clave',$clave)->first();
-    if($producto)
-    {
-        $product= Inventario::where('clave',$clave)->first();
-        $can=$product->cantidad;
-        $product->costo_unitario= floatval($valor_unitario);
-        $product->cantidad= $cantidad+$can;
-        $product->descripcion= $descripcion;
-        $product->save();
-    }
-    else{
-        $product= new Inventario;
-        $product->clave= $clave;
-        $product->costo_unitario= floatval($valor_unitario);
-        $product->cantidad= $cantidad;
-        $product->descripcion= $descripcion;
-        $product->save();
-    }
+    public function registro($valor_unitario,$descripcion,$clave,$ID){
+        if($ID == '1'){
+            $producto = Inventario::where([
+                ['clave_factura','=',$clave],
+                ['descripcion','=',$descripcion],
+            ])->first();
+
+            if($producto){
+                $product = Inventario::where('clave_factura',$clave)->first();
+                $product->costo_unitario = floatval($valor_unitario);
+                $product->save();
+            }else{
+                $product = new Inventario;
+                $product->clave_factura = $clave;
+                $product->costo_unitario = floatval($valor_unitario);
+                $product->descripcion = $descripcion;
+                $product->save();
+            }
+        }else{
+            $producto = Inventario::where([
+                ['clave_articulo','=',$clave],
+                ['descripcion','=',$descripcion],
+            ])->first();
+
+            if($producto){
+                $product = Inventario::where('clave_articulo',$clave)->first();
+                $product->costo_unitario = floatval($valor_unitario);
+                $product->save();
+            }else{
+                $product = new Inventario;
+                $product->clave_factura = $clave;
+                $product->costo_unitario = floatval($valor_unitario);
+                $product->descripcion = $descripcion;
+                $product->save();
+            }
+        }
     }
 
     public function importarexcel(){
-    return view('importarexcel');
+        return view('importarexcel');
     }
     public function exportarexcel(){
         return view('exportarinventario'); 
@@ -89,20 +107,22 @@ class InventarioController extends Controller
     }
    
     public function import(){
-        $inventario= Inventario::all();
+        $inventario = Inventario::all();
         foreach ($inventario as $invent) {
             $invent->delete();
-         } 
+        }
+
         Excel::import(new InventarioImport,request()->file('file'));    
         return redirect()->action('InventarioController@exportarexcel');
     }
 
     public function limpiarbase(){
-        $inventario= Inventario::all();
+        $inventario = Inventario::all();
         foreach ($inventario as $invent) {
             $invent->delete();
-         } 
-         return redirect()->action('InventarioController@index');
+        }
+
+        return redirect()->action('InventarioController@index');
     }
     /**
      * Show the form for creating a new resource.

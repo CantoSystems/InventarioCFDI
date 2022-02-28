@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7cd5c677d6d3aad48bd6527dd3a71eb5",
+    "content-hash": "770c10791c05bac040ccddf93baaebf8",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -239,16 +239,16 @@
         },
         {
             "name": "eclipxe/cfdiutils",
-            "version": "v2.19.1",
+            "version": "v2.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/eclipxe13/CfdiUtils.git",
-                "reference": "752fc680877985ef6729a2baafc37130681f8568"
+                "reference": "12eb407c1d663a66c17793abed545da9a1ba4a75"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/eclipxe13/CfdiUtils/zipball/752fc680877985ef6729a2baafc37130681f8568",
-                "reference": "752fc680877985ef6729a2baafc37130681f8568",
+                "url": "https://api.github.com/repos/eclipxe13/CfdiUtils/zipball/12eb407c1d663a66c17793abed545da9a1ba4a75",
+                "reference": "12eb407c1d663a66c17793abed545da9a1ba4a75",
                 "shasum": ""
             },
             "require": {
@@ -308,7 +308,7 @@
                 "issues": "https://github.com/eclipxe13/CfdiUtils/issues",
                 "source": "https://github.com/eclipxe13/CfdiUtils"
             },
-            "time": "2022-02-10T02:43:00+00:00"
+            "time": "2022-02-23T03:15:25+00:00"
         },
         {
             "name": "eclipxe/xmlresourceretriever",
@@ -4814,16 +4814,16 @@
         },
         {
             "name": "facade/ignition",
-            "version": "1.18.0",
+            "version": "1.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/ignition.git",
-                "reference": "fca0cbe5f900f94773d821b481c16d4ea3503491"
+                "reference": "d173a101b3dbbd7a3a7b849ab388a7a7ef6d90bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facade/ignition/zipball/fca0cbe5f900f94773d821b481c16d4ea3503491",
-                "reference": "fca0cbe5f900f94773d821b481c16d4ea3503491",
+                "url": "https://api.github.com/repos/facade/ignition/zipball/d173a101b3dbbd7a3a7b849ab388a7a7ef6d90bf",
+                "reference": "d173a101b3dbbd7a3a7b849ab388a7a7ef6d90bf",
                 "shasum": ""
             },
             "require": {
@@ -4886,7 +4886,7 @@
                 "issues": "https://github.com/facade/ignition/issues",
                 "source": "https://github.com/facade/ignition"
             },
-            "time": "2021-08-02T07:45:03+00:00"
+            "time": "2022-02-23T20:20:52+00:00"
         },
         {
             "name": "facade/ignition-contracts",
@@ -5261,6 +5261,9 @@
             "require": {
                 "php": "^7.1 || ^8.0"
             },
+            "replace": {
+                "myclabs/deep-copy": "self.version"
+            },
             "require-dev": {
                 "doctrine/collections": "^1.0",
                 "doctrine/common": "^2.6",
@@ -5441,16 +5444,16 @@
         },
         {
             "name": "phar-io/version",
-            "version": "3.1.1",
+            "version": "3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phar-io/version.git",
-                "reference": "15a90844ad40f127afd244c0cad228de2a80052a"
+                "reference": "4f7fd7836c6f332bb2933569e566a0d6c4cbed74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phar-io/version/zipball/15a90844ad40f127afd244c0cad228de2a80052a",
-                "reference": "15a90844ad40f127afd244c0cad228de2a80052a",
+                "url": "https://api.github.com/repos/phar-io/version/zipball/4f7fd7836c6f332bb2933569e566a0d6c4cbed74",
+                "reference": "4f7fd7836c6f332bb2933569e566a0d6c4cbed74",
                 "shasum": ""
             },
             "require": {
@@ -5486,9 +5489,9 @@
             "description": "Library for handling version information and constraints",
             "support": {
                 "issues": "https://github.com/phar-io/version/issues",
-                "source": "https://github.com/phar-io/version/tree/3.1.1"
+                "source": "https://github.com/phar-io/version/tree/3.2.1"
             },
-            "time": "2022-02-07T21:56:48+00:00"
+            "time": "2022-02-21T01:04:05+00:00"
         },
         {
             "name": "php-parallel-lint/php-console-color",
@@ -6242,13 +6245,13 @@
             },
             "type": "library",
             "autoload": {
+                "files": [
+                    "HighlightUtilities/functions.php"
+                ],
                 "psr-0": {
                     "Highlight\\": "",
                     "HighlightUtilities\\": ""
-                },
-                "files": [
-                    "HighlightUtilities/functions.php"
-                ]
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -7138,5 +7141,5 @@
         "php": "^7.2"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.1.0"
 }

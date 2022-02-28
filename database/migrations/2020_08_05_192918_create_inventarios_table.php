@@ -15,8 +15,8 @@ class CreateInventariosTable extends Migration
     {
         Schema::create('inventarios', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('clave');
-            $table->string('clave_interna')->nullable();
+            $table->longtext('clave_articulo')->nullable();
+            $table->longtext('clave_factura')->nullable();
             $table->longtext('descripcion');
             $table->string('cantidad')->nullable();
             $table->double('costo_unitario', 8, 2)->nullable();
