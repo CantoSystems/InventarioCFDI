@@ -16,10 +16,10 @@ class InventarioImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         return new Inventario([
-            'clave' => $row['clave'],
-            'clave_interna' => $row['clave_de_articulo'],
-            'descripcion' => $row['descripcion_de_producto'],
-            'cantidad' => $row['existencia'],
+            'clave_articulo' => $row['clave_de_articulo'],
+            'clave_factura' => $row['clave_de_factura'],
+            'descripcion' => $row['descripcion_del_producto'],
+            'cantidad' => $row['existencias'],
             'costo_unitario' => $row['costo_unitario'],
         ]);
     }
