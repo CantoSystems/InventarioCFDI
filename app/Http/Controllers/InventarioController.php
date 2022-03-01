@@ -32,7 +32,7 @@ class InventarioController extends Controller
             foreach ($files as $file) {
                 $this->obtenerdatos($file);
             }
-            //return redirect()->action('InventarioController@exportarexcel');
+            return redirect()->action('InventarioController@exportarexcel');
         }
     }
 
