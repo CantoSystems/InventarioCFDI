@@ -20,6 +20,7 @@ class CreateInventariosTable extends Migration
             $table->longtext('descripcion');
             $table->string('cantidad')->nullable();
             $table->double('costo_unitario', 8, 2)->nullable();
+            $table->date('ultimaModificacion')->nullable();
             $table->timestamps();
             $table->engine = 'InnoDB';
         });
