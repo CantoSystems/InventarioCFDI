@@ -26,7 +26,7 @@ class InventarioExport implements FromCollection, WithHeadings, ShouldAutoSize
     }
     public function collection()
     {
-        $users = DB::table('Inventarios')->select('clave_interna','clave', 'descripcion','cantidad', 'costo_unitario', 'ultimaModificacion')->get();
+        $users = DB::table('Inventarios')->select('clave_articulo','clave_factura', 'descripcion','cantidad', 'costo_unitario', 'ultimaModificacion')->get();
         return $users;
     }
 }
