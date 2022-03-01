@@ -32,7 +32,7 @@ class InventarioController extends Controller
             foreach ($files as $file) {
                 $this->obtenerdatos($file);
             }
-            //return redirect()->action('InventarioController@exportarexcel');
+            return redirect()->action('InventarioController@exportarexcel');
         }
     }
 
@@ -49,50 +49,43 @@ class InventarioController extends Controller
                 
                 if(isset($concepto['NoIdentificacion'])){
                     $clave = $concepto['NoIdentificacion'];
-                    $this->registro($valor_unitario,$descripcion,$clave,'1');
+                    $this->registro($valor_unitario,$descripcion,$clave,$comprobante['Fecha'],'1');
                 }else{
                     $clave = $concepto['claveprodserv'];
-                    $this->registro($valor_unitario,$descripcion,$clave,'2');
+                    $this->registro($valor_unitario,$descripcion,$clave,$comprobante['Fecha'],'2');
                 }
             }
         }
     }
 
-    public function registro($valor_unitario,$descripcion,$clave,$ID){
+    public function registro($valor_unitario,$descripcion,$clave,$fecha,$ID){
         if($ID == '1'){
             $producto = Inventario::where([
                 ['clave_factura','=',$clave],
                 ['descripcion','=',$descripcion],
             ])->first();
-
-            if($producto){
-                $product = Inventario::where('clave_factura',$clave)->first();
-                $product->costo_unitario = floatval($valor_unitario);
-                $product->save();
-            }else{
-                $product = new Inventario;
-                $product->clave_factura = $clave;
-                $product->costo_unitario = floatval($valor_unitario);
-                $product->descripcion = $descripcion;
-                $product->save();
-            }
         }else{
             $producto = Inventario::where([
                 ['clave_articulo','=',$clave],
                 ['descripcion','=',$descripcion],
             ])->first();
+        }
 
-            if($producto){
-                $product = Inventario::where('clave_articulo',$clave)->first();
+        if($producto){
+            if($producto->ultimaModificacion == null || $fecha > $producto->ultimaModificacion){
+                $product = Inventario::where('clave_factura',$clave)->first();
                 $product->costo_unitario = floatval($valor_unitario);
-                $product->save();
-            }else{
-                $product = new Inventario;
-                $product->clave_factura = $clave;
-                $product->costo_unitario = floatval($valor_unitario);
-                $product->descripcion = $descripcion;
+                $product->ultimaModificacion = $fecha;
                 $product->save();
             }
+            
+        }else{
+            $product = new Inventario;
+            $product->clave_factura = $clave;
+            $product->costo_unitario = floatval($valor_unitario);
+            $product->descripcion = $descripcion;
+            $product->ultimaModificacion = $fecha;
+            $product->save();
         }
     }
 
